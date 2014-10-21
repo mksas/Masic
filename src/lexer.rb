@@ -3,8 +3,13 @@ def lex(filecontents)
 	tok = ""
 	in_string = false
 	string = ""
+	comment = false
 	filecontents.each { |char| 
 		tok += char
+		if comment == true and tok != "\n"
+			tok = ""
+		end
+
 		if tok == " "
 			if in_string == false
 				tok = ""
@@ -12,6 +17,9 @@ def lex(filecontents)
 				tok = " "
 			end
 		elsif tok == "\n"
+			if comment == true
+				comment = false
+			end
 			tok = ""
 		elsif tok == "puts"
 			tokens.push("puts")
@@ -30,6 +38,10 @@ def lex(filecontents)
 				string = ""
 				tok = ""
 			end
+		elsif tok == "--"
+			comment = true
+			tokens.push("comment")
+			tok = ""
 		elsif in_string == true
 			string += tok
 			tok = ""

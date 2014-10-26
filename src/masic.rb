@@ -7,7 +7,7 @@ def open_file(filename)
 end
 
 def run
-	data = open_file(ARGF.argv[0])
+	data = open_file(ARGV[0])
 	toks = lex(data)
 	parse(toks)
 end
